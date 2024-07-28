@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
-export default function App() {
+const App = () => {
     const [answer, setAnswer] = useState('');
     const [loading, setLoading] = useState(false);
     const fadeAnim = new Animated.Value(0);
@@ -15,15 +15,15 @@ export default function App() {
     const getRandomAnswer = () => {
         const rand = Math.random();
         if (rand < 0.4) return 'yep';
-        else if (rand < 0.6) return 'nope';
-        else return 'dunno';
+        if (rand < 0.6) return 'nope';
+        return 'dunno';
     };
 
     const handlePress = () => {
         setLoading(true);
         setAnswer('');
 
-        // Simulate a 5-second loading period before showing the answer
+        // Simulate a 5-second loading period
         setTimeout(() => {
             const newAnswer = getRandomAnswer();
             setAnswer(newAnswer);
@@ -35,7 +35,7 @@ export default function App() {
                 toValue: 1,
                 duration: 3000, // 3 sec fade in
                 easing: Easing.ease,
-                useNativeDriver: true,
+                useNativeDriver: false,
             }).start();
         }, 5000); // 5 seconds delay
     };
@@ -68,7 +68,7 @@ export default function App() {
             </SafeAreaView>
         </TouchableOpacity>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -102,3 +102,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
 });
+
+export default App;
