@@ -1,6 +1,5 @@
 // Filename: index.js
 // Combined code from all files
-
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity } from 'react-native';
 
@@ -20,18 +19,13 @@ export default function App() {
         setAnswer(newAnswer);
 
         // Reset animation
+        fadeAnim.setValue(0);
         Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 0,
+            toValue: 1,
+            duration: 500, // 0.5 sec fade in
+            easing: Easing.ease,
             useNativeDriver: true,
-        }).start(() => {
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 1000, // 1 sec fade in
-                easing: Easing.ease,
-                useNativeDriver: true,
-            }).start();
-        });
+        }).start();
     };
 
     const handleExit = () => {
