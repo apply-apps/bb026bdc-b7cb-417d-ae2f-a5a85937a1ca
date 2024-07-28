@@ -2,13 +2,14 @@
 // Combined code from all files
 
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Import the icon library
+import { SafeAreaView, StyleSheet, Text, View, Animated, Easing, TouchableOpacity, Dimensions, ActivityIndicator, BackHandler } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 export default function App() {
     const [answer, setAnswer] = useState('');
+    const [loading, setLoading] = useState(false);
     const fadeAnim = new Animated.Value(0);
 
     const getRandomAnswer = () => {
@@ -19,24 +20,27 @@ export default function App() {
     };
 
     const handlePress = () => {
-        const newAnswer = getRandomAnswer();
-        setAnswer(newAnswer);
-        
-        // Ensure the answer updates immediately
+        setLoading(true);
+        setAnswer('');
+
+        // Simulate a 5-second loading period before showing the answer
         setTimeout(() => {
+            const newAnswer = getRandomAnswer();
+            setAnswer(newAnswer);
+            setLoading(false);
+
             // Reset animation
             fadeAnim.setValue(0);
             Animated.timing(fadeAnim, {
                 toValue: 1,
-                duration: 500, // 0.5 sec fade in
+                duration: 3000, // 3 sec fade in
                 easing: Easing.ease,
                 useNativeDriver: true,
             }).start();
-        }, 0); // Delay of 0 ensures the state update happens
+        }, 5000); // 5 seconds delay
     };
 
     const handleExit = () => {
-        // Trigger the back handler to exit the app
         BackHandler.exitApp();
     };
 
@@ -47,16 +51,19 @@ export default function App() {
                     <Ionicons name="close" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
                 <View style={styles.box}>
-                    <Animated.Text
-                        style={[
-                            styles.answer,
-                            {
-                                opacity: fadeAnim,
-                            },
-                        ]}
-                    >
-                        {answer}
-                    </Animated.Text>
+                    {loading && <ActivityIndicator size="large" color="#FFFFFF" />}
+                    {!loading && (
+                        <Animated.Text
+                            style={[
+                                styles.answer,
+                                {
+                                    opacity: fadeAnim,
+                                },
+                            ]}
+                        >
+                            {answer}
+                        </Animated.Text>
+                    )}
                 </View>
             </SafeAreaView>
         </TouchableOpacity>
@@ -68,24 +75,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#00008B', // Dark blue background
+        backgroundColor: '#00008B',
     },
     safeArea: {
         flex: 1,
-        width: '100%', // Ensure SafeAreaView takes up the entire screen width
+        width: '100%',
     },
     box: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: width * 0.5, // Take 50% of the screen width
+        width: width * 0.5,
     },
     answer: {
-        fontSize: 40, // Increase the font size for the answer
-        color: '#FFFFFF', // White font color
+        fontSize: 40,
+        color: '#FFFFFF',
         fontFamily: 'sans-serif',
         textAlign: 'center',
-        width: '100%', // Ensure the answer text takes up the entire box width
+        width: '100%',
     },
     exitButton: {
         position: 'absolute',
