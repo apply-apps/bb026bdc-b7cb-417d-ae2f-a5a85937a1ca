@@ -1,53 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// Filename: index.js
+// Combined code from all files
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing } from 'react-native';
 
-const App = () => {
-  const fullText = 'Hi, this is Apply.\nCreating mobile apps is now as simple as typing text.\nJust input your idea and press APPLY, and our platform does the rest...';
-  const [displayedText, setDisplayedText] = useState('');
-  const [index, setIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+export default function App() {
+    const [answer, setAnswer] = useState('');
+    const fadeAnim = new Animated.Value(0);
 
-  useEffect(() => {
-    if (isPaused) return;
+    const getRandomAnswer = () => {
+        const rand = Math.random();
+        if (rand < 0.4) return 'yep';
+        else if (rand < 0.6) return 'nope';
+        else return 'dunno';
+    };
 
-    const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + fullText[index]);
-      setIndex((prev) => {
-        if (prev === fullText.length - 1) {
-          setIsPaused(true);
-          setTimeout(() => {
-            setDisplayedText('');
-            setIndex(0);
-            setIsPaused(false);
-          }, 2000);
-          return 0;
-        }
-        return prev + 1;
-      });
-    }, 100);
+    const handlePress = () => {
+        const newAnswer = getRandomAnswer();
+        setAnswer(newAnswer);
 
-    return () => clearInterval(interval);
-  }, [index, isPaused]);
+        // Reset animation
+        fadeAnim.setValue(0);
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 2000, // 2 sec fade in
+            easing: Easing.ease,
+            useNativeDriver: true,
+        }).start();
+    };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{displayedText}</Text>
-    </View>
-  );
-};
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.box}>
+                <Button title="Get Answer" onPress={handlePress} color="#FFFFFF" />
+                <Animated.Text
+                    style={[
+                        styles.answer,
+                        {
+                            opacity: fadeAnim,
+                        },
+                    ]}
+                >
+                    {answer}
+                </Animated.Text>
+            </View>
+        </SafeAreaView>
+    );
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'black',
-    padding: 20,
-  },
-  text: {
-    color: 'white',
-    fontSize: 24,
-    fontFamily: 'monospace',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#00008B', // Dark blue background
+    },
+    box: {
+        backgroundColor: '#00008B', // Dark blue background
+        padding: 20,
+        borderRadius: 15,
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        marginBottom: 20,
+        alignItems: 'center',
+    },
+    answer: {
+        marginTop: 20,
+        fontSize: 24,
+        color: '#FFFFFF', // White font color
+        fontFamily: 'sans-serif',
+    },
 });
-
-export default App;
