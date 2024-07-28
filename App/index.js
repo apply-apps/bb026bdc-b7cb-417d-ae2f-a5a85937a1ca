@@ -1,5 +1,6 @@
 // Filename: index.js
 // Combined code from all files
+
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import the icon library
