@@ -1,9 +1,8 @@
 // Filename: index.js
 // Combined code from all files
-
-// Filename begin: App.js
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
@@ -36,16 +35,14 @@ export default function App() {
     };
 
     const handleExit = () => {
-        // Logic to exit the app
-        // In a real device, you can use BackHandler.exitApp() from 'react-native'
-        // For demonstration, we'll just log a message
-        console.log("Exit button pressed");
+        // Trigger the back handler to exit the app
+        BackHandler.exitApp();
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.exitButton} onPress={handleExit}>
-                <Text style={styles.exitButtonText}>Exit</Text>
+                <Ionicons name="close" size={24} color="#FFFFFF" />
             </TouchableOpacity>
             <View style={styles.box}>
                 <Animated.Text
@@ -95,13 +92,6 @@ const styles = StyleSheet.create({
         top: 10,
         right: 10,
         padding: 10,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 5,
-    },
-    exitButtonText: {
-        color: '#00008B', // Dark blue text color
-        fontSize: 16,
-        fontWeight: 'bold',
+        backgroundColor: 'transparent',
     },
 });
-// Filename end: App.js
