@@ -1,7 +1,11 @@
 // Filename: index.js
 // Combined code from all files
+
+// Filename begin: App.js
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default function App() {
     const [answer, setAnswer] = useState('');
@@ -17,15 +21,18 @@ export default function App() {
     const handlePress = () => {
         const newAnswer = getRandomAnswer();
         setAnswer(newAnswer);
-
-        // Reset animation
-        fadeAnim.setValue(0);
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 500, // 0.5 sec fade in
-            easing: Easing.ease,
-            useNativeDriver: true,
-        }).start();
+        
+        // Ensure the answer updates immediately
+        setTimeout(() => {
+            // Reset animation
+            fadeAnim.setValue(0);
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 500, // 0.5 sec fade in
+                easing: Easing.ease,
+                useNativeDriver: true,
+            }).start();
+        }, 0); // Delay of 0 ensures the state update happens
     };
 
     const handleExit = () => {
@@ -70,7 +77,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '50%', // Take 50% of the screen width
+        width: width * 0.5, // Take 50% of the screen width
     },
     buttonContainer: {
         padding: 20,
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF', // White font color
         fontFamily: 'sans-serif',
         textAlign: 'center',
+        width: '100%', // Ensure the answer text takes up the entire box width
     },
     exitButton: {
         position: 'absolute',
@@ -96,3 +104,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+// Filename end: App.js
