@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '50%', // Take 50% of the screen width
     },
     buttonContainer: {
         padding: 20,
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#FFFFFF', // White font color
         fontFamily: 'sans-serif',
+        textAlign: 'center',
     },
     exitButton: {
         position: 'absolute',
