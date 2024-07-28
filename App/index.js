@@ -1,12 +1,13 @@
 // Filename: index.js
 // Combined code from all files
+
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons'; // Import the icon library
 
 const { width } = Dimensions.get('window');
 
-export default function App() {
+function App() {
     const [answer, setAnswer] = useState('');
     const fadeAnim = new Animated.Value(0);
 
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     answer: {
-        fontSize: 24,
+        fontSize: 40, // Increase the font size for the answer
         color: '#FFFFFF', // White font color
         fontFamily: 'sans-serif',
         textAlign: 'center',
@@ -95,3 +96,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
 });
+
+export default App;
