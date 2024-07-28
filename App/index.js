@@ -1,10 +1,10 @@
 // Filename: index.js
 // Combined code from all files
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing } from 'react-native';
 
-const App = () => {
+export default function App() {
     const [answer, setAnswer] = useState('');
     const fadeAnim = new Animated.Value(0);
 
@@ -20,13 +20,18 @@ const App = () => {
         setAnswer(newAnswer);
 
         // Reset animation
-        fadeAnim.setValue(0);
         Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 2000, // 2 sec fade in
-            easing: Easing.ease,
+            toValue: 0,
+            duration: 0,
             useNativeDriver: true,
-        }).start();
+        }).start(() => {
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 1000, // 1 sec fade in
+                easing: Easing.ease,
+                useNativeDriver: true,
+            }).start();
+        });
     };
 
     return (
@@ -48,7 +53,7 @@ const App = () => {
             </View>
         </SafeAreaView>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -72,5 +77,3 @@ const styles = StyleSheet.create({
         fontFamily: 'sans-serif',
     },
 });
-
-export default App;
