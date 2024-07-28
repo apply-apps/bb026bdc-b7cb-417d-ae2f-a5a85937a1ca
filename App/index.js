@@ -1,9 +1,10 @@
 // Filename: index.js
 // Combined code from all files
+
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing } from 'react-native';
 
-export default function App() {
+const App = () => {
     const [answer, setAnswer] = useState('');
     const fadeAnim = new Animated.Value(0);
 
@@ -31,7 +32,6 @@ export default function App() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.box}>
-                <Button title="Get Answer" onPress={handlePress} color="#FFFFFF" />
                 <Animated.Text
                     style={[
                         styles.answer,
@@ -43,9 +43,12 @@ export default function App() {
                     {answer}
                 </Animated.Text>
             </View>
+            <View style={styles.buttonContainer}>
+                <Button title="Get Answer" onPress={handlePress} color="#FFFFFF" />
+            </View>
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -55,17 +58,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#00008B', // Dark blue background
     },
     box: {
-        backgroundColor: '#00008B', // Dark blue background
-        padding: 20,
-        borderRadius: 15,
-        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-        marginBottom: 20,
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
+    buttonContainer: {
+        padding: 20,
+        marginBottom: 20,
+    },
     answer: {
-        marginTop: 20,
         fontSize: 24,
         color: '#FFFFFF', // White font color
         fontFamily: 'sans-serif',
     },
 });
+
+export default App;
