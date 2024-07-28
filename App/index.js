@@ -1,13 +1,12 @@
 // Filename: index.js
 // Combined code from all files
-
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Animated, Easing, TouchableOpacity, Dimensions, BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import the icon library
 
 const { width } = Dimensions.get('window');
 
-function App() {
+export default function App() {
     const [answer, setAnswer] = useState('');
     const fadeAnim = new Animated.Value(0);
 
@@ -41,26 +40,25 @@ function App() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.exitButton} onPress={handleExit}>
-                <Ionicons name="close" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
-            <View style={styles.box}>
-                <Animated.Text
-                    style={[
-                        styles.answer,
-                        {
-                            opacity: fadeAnim,
-                        },
-                    ]}
-                >
-                    {answer}
-                </Animated.Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button title="Get Answer" onPress={handlePress} color="#FFFFFF" />
-            </View>
-        </SafeAreaView>
+        <TouchableOpacity style={styles.container} onPress={handlePress} activeOpacity={1}>
+            <SafeAreaView style={styles.safeArea}>
+                <TouchableOpacity style={styles.exitButton} onPress={handleExit}>
+                    <Ionicons name="close" size={24} color="#FFFFFF" />
+                </TouchableOpacity>
+                <View style={styles.box}>
+                    <Animated.Text
+                        style={[
+                            styles.answer,
+                            {
+                                opacity: fadeAnim,
+                            },
+                        ]}
+                    >
+                        {answer}
+                    </Animated.Text>
+                </View>
+            </SafeAreaView>
+        </TouchableOpacity>
     );
 }
 
@@ -71,15 +69,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#00008B', // Dark blue background
     },
+    safeArea: {
+        flex: 1,
+        width: '100%', // Ensure SafeAreaView takes up the entire screen width
+    },
     box: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         width: width * 0.5, // Take 50% of the screen width
-    },
-    buttonContainer: {
-        padding: 20,
-        marginBottom: 20,
     },
     answer: {
         fontSize: 40, // Increase the font size for the answer
@@ -96,5 +94,3 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
 });
-
-export default App;
